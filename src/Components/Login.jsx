@@ -2,22 +2,22 @@ import { useEffect, useState } from "react";
 
 import React from "react";
 import styled from "styled-components";
-import { GrClose } from "react-icons/gr";
-import { BsGithub, BsFacebook } from "react-icons/bs";
-import { FcGoogle } from "react-icons/fc";
-import { FaLinkedin } from "react-icons/fa";
-// import logo_name from "../images/logo_name.jpg";
-// import { useHistory, useParams } from "react-router";
-// import { Link } from "react-router-dom";
-// import { NewLogo } from "../images/NewLogo";
+import { useHistory, useParams } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+
 import axios from "axios";
+import { login, selectUser } from "../features/userSlice";
 const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const Login = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role, setRole] = useState("");
-    // const history = useHistory();
+    const [curRetailer, setCurRetailer] = useState({});
+    console.log("curRetailer:", curRetailer);
+    const history = useHistory();
+    const dispatch = useDispatch();
+    const user = useSelector(selectUser);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -25,20 +25,41 @@ export const Login = () => {
             const userData = await axios.post(`${baseUrl}/login`, {
                 email,
                 password,
-                role
+                role,
             });
             console.log("userData:", userData);
-            // if (!localStorage.getItem("user") && userData)
-            //     localStorage.setItem(
-            //         "email",
-            //         JSON.stringify(userData.data.user.email)
-            //     );
-            //     localStorage.setItem(
-            //         "user",
-            //         JSON.stringify(userData.data.token)
-            //     );
-            //     history.push("/");
-            // }
+            const retailerData = await axios.get(
+                `${baseUrl}/retailer/api/retailers`,
+                {
+                    headers: {
+                        authorization: `Bearer ${userData.data.token}`,
+                    },
+                }
+            );
+            let curRetailerData = retailerData.data.filter(
+                (el) => el.userId === userData.data.user._id
+            );
+            console.log("curRetailer", curRetailerData);
+            setCurRetailer(curRetailerData[0]);
+            !user &&
+                dispatch(
+                    login({
+                        curRetailer: curRetailerData[0],
+                        token: userData.data.token,
+                    })
+                );
+
+            if (!localStorage.getItem("token") && userData)
+                localStorage.setItem(
+                    "curRetailer",
+                    JSON.stringify(curRetailerData[0])
+                );
+            localStorage.setItem(
+                "userId",
+                JSON.stringify(userData.data.user._id)
+            );
+            localStorage.setItem("token", JSON.stringify(userData.data.token));
+            
         } catch (error) {
             alert(error.message);
         }
