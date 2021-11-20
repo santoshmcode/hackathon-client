@@ -1,12 +1,14 @@
 import React from "react";
-import Dashboard from "./components/Dashboard";
+
+// import { Login } from "./Components/Login";
+import { Router } from './Router/Router';
 
 function App() {
-    return <div className="App">
-
-        <Dashboard/>
-
-    </div>;
+    return (
+        <div className="App">
+            <Router />
+        </div>
+    );
 }
 
 export default App;

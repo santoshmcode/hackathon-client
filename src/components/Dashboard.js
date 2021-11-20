@@ -3,18 +3,27 @@ import CustomizedTables from "./table";
 import Retailer from "./Retailer";
 import "./style.css";
 import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
+import { logout, selectUser } from "../features/userSlice";
 
 export default function Dashboard() {
   const [showRetailer, setShowRetailer] = useState(true);
   const [data, setData] = useState("");
+  const user = useSelector(selectUser);
+
+  console.log(user.token);
+  const token = user.token;
 
   const getData = async () => {
     try {
-      let res = await axios.get(`${process.env.REACT_APP_BASE_URL}/factory/api/factories`);
-      console.log(res);
-      // setData(res.data)
+      let resManufacturer = await axios.get(`${process.env.REACT_APP_BASE_URL}/factory/api/factories`);
+      // let resWarehouse = await axios.get(`${process.env.REACT_APP_BASE_URL}/factory/api/factories`);
+      // let resRetailer = await axios.get(`${process.env.REACT_APP_BASE_URL}/factory/api/factories`);
+      // let 
+      console.log(resManufacturer);
+      // setData(res.data);
     }
     catch (err) {
       console.log(err);
