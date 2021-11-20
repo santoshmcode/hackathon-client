@@ -5,7 +5,7 @@ import Button from "@mui/material/Button";
 export default function ColorButtons() {
   return (
     <Stack style={{textAlign:'center'}}>
-      <Button variant="contained" color="success" style={{width:'70%',margin:'auto'}}>
+      <Button variant="contained" color="grey" style={{width:'70%',margin:'auto', backgroundColor: "#cfd8dc"}} className="sellBtn">
         Sell
       </Button>
     </Stack>

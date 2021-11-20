@@ -1,7 +1,7 @@
 .container {
   text-align: center;
   /* border:1px solid blue; */
-  position: relative;
+  /* position: relative; */
 }
 
 .retailerContainer {
@@ -15,11 +15,10 @@
 .retName {
   /* border: 1px solid red; */
   text-align: center;
-  position: absolute;
-  left: 42%;
-  top: 60vh;
   font-weight: 600;
   font-size: 2rem;
+  margin-top: 6vh;
+  color: rgb(63, 56, 56);
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
@@ -32,8 +31,10 @@
   text-align: center;
   width: 60%;
   margin-top: 10vh;
+  margin-bottom: 2vh;
   font-weight: 600;
   font-size: 2rem;
+  color: rgb(63, 56, 56);
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
@@ -46,4 +47,12 @@
   align-items: flex-start;
   text-align: center;
   width: 80%;
+}
+.arrow {
+  color: rgb(63, 56, 56);
+}
+.sellBtn {
+  width:70%;
+  margin: auto;
+  background-color: #cfd8dc;
 }

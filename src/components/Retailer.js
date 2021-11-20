@@ -11,8 +11,10 @@ import Button from './Button.js'
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: " #3f51b5",
+    backgroundColor: "#607d8b",
     color: theme.palette.common.white,
+    fontSize: 16,
+    fontWeight: 400
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -45,7 +47,7 @@ export default function CustomizedTables() {
   return (
     <TableContainer
       component={Paper}
-      style={{ width: "50%", margin: "4rem 1rem" }}
+      style={{ width: "50%", margin: "1rem 1rem" }}
     >
       <Table sx={{ maxWidth: "100%" }} aria-label="customized table">
         <TableHead>
