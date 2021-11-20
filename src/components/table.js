@@ -10,8 +10,10 @@ import Paper from "@mui/material/Paper";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor:' #3f51b5',
+    backgroundColor:' #607d8b',
     color: theme.palette.common.white,
+    fontSize: 16,
+    fontWeight: 400
   },
   [`&.${tableCellClasses.body}`]: {
     fontSize: 14,
@@ -41,8 +43,9 @@ const rows = [
 ];
 
 export default function CustomizedTables() {
+  
   return (
-    <TableContainer component={Paper} style={{width:'45%'}}>
+    <TableContainer component={Paper} style={{width:'47%'}}>
       <Table sx={{ maxWidth: '100%'}} aria-label="customized table">
         <TableHead>
           <TableRow>
