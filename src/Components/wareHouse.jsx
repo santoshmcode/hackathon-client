@@ -54,10 +54,10 @@ export default function WareHouse({ warehouseData }) {
         <TableHead>
           <TableRow>
             <StyledTableCell>Product</StyledTableCell>
-            <StyledTableCell align="right">Current Stock</StyledTableCell>
-            <StyledTableCell align="right">Reorder Point</StyledTableCell>
-            <StyledTableCell align="right">Retailer Request</StyledTableCell>
-            <StyledTableCell align="right">Maximum Capacity</StyledTableCell>
+            <StyledTableCell align="center">Current Stock</StyledTableCell>
+            <StyledTableCell align="center">Reorder Point</StyledTableCell>
+            <StyledTableCell align="center">Retailer Request</StyledTableCell>
+            <StyledTableCell align="center">Maximum Capacity</StyledTableCell>
           </TableRow>
         </TableHead>
 
@@ -74,12 +74,12 @@ export default function WareHouse({ warehouseData }) {
                   prodName[1],
                   e.requestCount
                 )}
-                <StyledTableCell align="right">{e.wTotalCount}</StyledTableCell>
-                <StyledTableCell align="right">10</StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">{e.wTotalCount}</StyledTableCell>
+                <StyledTableCell align="center">10</StyledTableCell>
+                <StyledTableCell align="center">
                   {e.requestCount}
                 </StyledTableCell>
-                <StyledTableCell align="right">
+                <StyledTableCell align="center">
                   {e.wMaxCount}
                 </StyledTableCell>
               </StyledTableRow>

@@ -7,7 +7,11 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Button from './Button.js'
+import Button from './Button.js';
+import { useState } from "react";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import { selectUser } from "../features/userSlice.js";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,19 +35,56 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+// function createData(name, calories, fat, carbs, protein) {
+//   return { name, calories, fat, carbs, protein };
+// }
 
-const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  //   createData("Gingerbread", 356, 16.0, 49, 3.9),
-];
+// const rows = [
+//   createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+//   createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+//   createData("Eclair", 262, 16.0, 24, 6.0),
+//   createData("Cupcake", 305, 3.7, 67, 4.3),
+//     createData("Gingerbread", 356, 16.0, 49, 3.9),
+// ];
 
-export default function CustomizedTables() {
+export default function CustomizedTables({ retailerData }) {
+  console.log("In retailerData:", retailerData);
+  const products = retailerData?.products;
+  // console.log("products:", products);
+  const name = retailerData?.name;
+  // const [stock, setStock] = useState(products?.productCount);
+  // console.log("stock:", stock);
+  // const [retailerId, setRetailerId] = useState(retailerData?._id);
+  // console.log("retailerId:", retailerId, retailerData);
+  const user = useSelector(selectUser);
+  const token = user.token;
+  const retailerId = retailerData?._id;
+  // console.log("retailerId:", retailerId, retailerData);
+
+  let arr1 = ["Geyser", "Fans"];
+  let arr2 = ["Cooler", "Fans"];
+  // let retailer1 = [...arr1];
+  // let retailer2 = [...arr2];
+
+  const handleSell = async (productId, productCount) => {
+    console.log("productId:", productId, productCount, retailerId);
+    try {
+        let retailerCountUpdate = await axios.patch(
+          `${process.env.REACT_APP_BASE_URL}/retailer/api/productCount`,
+            {retId: retailerId , prodId: productId, count: productCount-1},
+            {
+                headers: {
+                    authorization: `Bearer ${token}`,
+                },
+            }
+      );
+      console.log("retailerCountUpdate:", retailerCountUpdate);
+        // setManufacturerData(resManufacturer.data[0]);
+    } catch (err) {
+        console.log(err);
+    }
+  }
+  
   return (
     <TableContainer
       component={Paper}
@@ -53,24 +94,24 @@ export default function CustomizedTables() {
         <TableHead>
           <TableRow>
             <StyledTableCell>Product</StyledTableCell>
-            <StyledTableCell align="right">Current Stock</StyledTableCell>
-            <StyledTableCell align="right">Reorder Point</StyledTableCell>
-            <StyledTableCell align="right">Maximum Stock Limit</StyledTableCell>
-            {/* <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell> */}
+            <StyledTableCell align="center">Current Stock</StyledTableCell>
+            <StyledTableCell align="center">Reorder Point</StyledTableCell>
+            <StyledTableCell align="center">Sold Product</StyledTableCell>
+            {/* <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {products?.map((row, i) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {name === "Pradeep Electronics" ? arr1[i] : arr2[i]}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">
-                <Button />
+              <StyledTableCell align="center">{row.productCount}</StyledTableCell>
+              <StyledTableCell align="center">{row.reorderPoint}</StyledTableCell>
+              <StyledTableCell align="center">
+                <Button handleSell={handleSell} productId={row.productId} productCount={row.productCount}/>
               </StyledTableCell>
-              {/* <StyledTableCell align="right">{row.protein}</StyledTableCell> */}
+              {/* <StyledTableCell align="center">{row.protein}</StyledTableCell> */}
             </StyledTableRow>
           ))}
         </TableBody>

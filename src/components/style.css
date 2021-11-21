@@ -56,3 +56,7 @@
   margin: auto;
   background-color: #cfd8dc;
 }
+.retailerComponent {
+  display: flex;
+  flex-direction: column;
+}

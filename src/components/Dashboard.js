@@ -40,12 +40,12 @@ export default function Dashboard() {
         }
     };
 
-    // useEffect(() => {
-    //     let intervalId = setInterval(() => {
-    //         getManufacturerData();
-    //     }, 5000);
-    //     return () => clearInterval(intervalId);
-    // }, []);
+    useEffect(() => {
+        let intervalId = setInterval(() => {
+            getManufacturerData();
+        }, 5000);
+        return () => clearInterval(intervalId);
+    }, []);
 
     //  For get Warehouse Data
     const getWarehouseData = async () => {
@@ -64,12 +64,12 @@ export default function Dashboard() {
         }
     };
 
-    // useEffect(() => {
-    //     let intervalId = setInterval(() => {
-    //         getWarehouseData();
-    //     }, 5000);
-    //     return () => clearInterval(intervalId);
-    // }, []);
+    useEffect(() => {
+        let intervalId = setInterval(() => {
+            getWarehouseData();
+        }, 5000);
+        return () => clearInterval(intervalId);
+    }, []);
 
     //  For get Retailer Data
     const getRetailerData = async () => {
@@ -88,12 +88,12 @@ export default function Dashboard() {
         }
     };
 
-    // useEffect(() => {
-    //     let intervalId = setInterval(() => {
-    //         getRetailerData();
-    //     }, 5000);
-    //     return () => clearInterval(intervalId);
-    // }, []);
+    useEffect(() => {
+        let intervalId = setInterval(() => {
+            getRetailerData();
+        }, 5000);
+        return () => clearInterval(intervalId);
+    }, []);
 
     useEffect(() => {
         getRetailerData();
@@ -121,7 +121,7 @@ export default function Dashboard() {
                     className="arrow"
                 />
 
-                {showRetailer ? <Retailer /> : <Retailer />}
+          {showRetailer ? <Retailer retailerData={ retailerData[0]}/> : <Retailer retailerData={ retailerData[1]}/>}
 
                 <ArrowForwardIosIcon
                     onClick={() => setShowRetailer(true)}

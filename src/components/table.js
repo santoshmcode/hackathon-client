@@ -55,10 +55,10 @@ export default function Manufacturer({manufacturerData}) {
         <TableHead>
           <TableRow>
             <StyledTableCell>Product</StyledTableCell>
-            <StyledTableCell align="right">Current Stock</StyledTableCell>
-            <StyledTableCell align="right">Reorder Point</StyledTableCell>
-            <StyledTableCell align="right">Request By Warehouse</StyledTableCell>
-            {/* <StyledTableCell align="right">Protein&nbsp;(g)</StyledTableCell> */}
+            <StyledTableCell align="center">Current Stock</StyledTableCell>
+            <StyledTableCell align="center">Reorder Point</StyledTableCell>
+            <StyledTableCell align="center">Warehouse Request</StyledTableCell>
+            {/* <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell> */}
           </TableRow>
         </TableHead>
         <TableBody> 
@@ -69,9 +69,9 @@ export default function Manufacturer({manufacturerData}) {
                   {prodName[i]}
                   </StyledTableCell>
                     {console.log("totalCount:", e.fTotalCount, prodName[1], e.requestCount)}
-                  <StyledTableCell align="right">{e.fTotalCount}</StyledTableCell>
-                  <StyledTableCell align="right">10</StyledTableCell>
-                  <StyledTableCell align="right">{e.requestCount}</StyledTableCell>
+                  <StyledTableCell align="center">{e.fTotalCount}</StyledTableCell>
+                  <StyledTableCell align="center">10</StyledTableCell>
+                  <StyledTableCell align="center">{e.requestCount}</StyledTableCell>
                 </StyledTableRow>
                 </>
              ))}
@@ -84,10 +84,10 @@ export default function Manufacturer({manufacturerData}) {
               <StyledTableCell component="th" scope="row">
                 {row.name}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+              <StyledTableCell align="center">{row.calories}</StyledTableCell>
+              <StyledTableCell align="center">{row.fat}</StyledTableCell>
+              <StyledTableCell align="center">{row.carbs}</StyledTableCell>
+              <StyledTableCell align="center">{row.protein}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody> */}
