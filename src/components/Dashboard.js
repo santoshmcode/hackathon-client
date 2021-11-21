@@ -17,11 +17,47 @@ export default function Dashboard() {
     const [manufacturerData, setManufacturerData] = useState({});
     const [warehouseData, setWarehouseData] = useState({});
     const [retailerData, setRetailerData] = useState([]);
+    const [prodReqCountAtWH, setProdReqCountAtWH] = useState([]);
+    const [totalProdAtWH, setTotalProdAtWH] = useState([]);
+    console.log("prodReqCountAtWH:", prodReqCountAtWH, totalProdAtWH);
     const token = user.token;
 
     console.log("retailerData:", retailerData);
     console.log("warehouseData:", warehouseData);
     console.log("manufacturerData:", manufacturerData);
+
+    // For find product request count
+    const findProReqCountInWH = () => {
+        const prodReqCount = [];
+        const prodTotalCount = [];
+        let aCount = 0;
+        let bCount = 0;
+        let cCount = 0;
+        warehouseData?.pendingRequests?.map((e) => {
+            e.productIDs.map((ee) => {
+                console.log("eee", ee.productID);
+                if (ee.productID === "6198c25019e5c4aef2a4fbda") {
+                    aCount = ee.requestCount;
+                } else if (ee.productID === "6198c58cf6e810f109d86425") {
+                    bCount = ee.requestCount;
+                } else if (ee.productID === "6198c5ddf6e810f109d86427") {
+                    cCount = ee.requestCount;
+                }
+            });
+        });
+        prodReqCount.push(aCount);
+        prodReqCount.push(bCount);
+        prodReqCount.push(cCount);
+        setProdReqCountAtWH(prodReqCount);
+
+        warehouseData?.totalProducts?.map((e) => {
+            prodTotalCount.push(e.wTotalCount);
+        });
+      setTotalProdAtWH(prodTotalCount);
+      console.log("prodReqCount:", prodReqCount, prodTotalCount);
+      
+  };
+
 
     // For get Manufacturer Data
     const getManufacturerData = async () => {
@@ -59,6 +95,7 @@ export default function Dashboard() {
                 }
             );
             setWarehouseData(resWarehouse.data[0]);
+            findProReqCountInWH();
         } catch (err) {
             console.log(err);
         }
@@ -109,8 +146,12 @@ export default function Dashboard() {
             </div>
 
             <div className="main">
-              <Manufacturer manufacturerData={ manufacturerData}/>
-              <WareHouse warehouseData={warehouseData}/>
+                <Manufacturer manufacturerData={manufacturerData} />
+                <WareHouse
+                    warehouseData={warehouseData}
+                    prodReqCountAtWH={prodReqCountAtWH}
+                    totalProdAtWH={totalProdAtWH}
+                />
             </div>
 
             <div className="retName">Retailer Name</div>
@@ -121,7 +162,11 @@ export default function Dashboard() {
                     className="arrow"
                 />
 
-                {showRetailer ? <Retailer /> : <Retailer />}
+                {showRetailer ? (
+                    <Retailer retailerData={retailerData[0]} />
+                ) : (
+                    <Retailer retailerData={retailerData[1]} />
+                )}
 
                 <ArrowForwardIosIcon
                     onClick={() => setShowRetailer(true)}

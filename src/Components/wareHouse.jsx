@@ -44,49 +44,61 @@ const rows = [
 
 const prodName = ["Fans", "Geyser", "Coolers"];
 
-export default function WareHouse({ warehouseData }) {
-  console.log("warehouseData:", warehouseData);
-  const totalProducts = warehouseData?.totalProducts;
+export default function WareHouse({ warehouseData, prodReqCountAtWH, totalProdAtWH }) {
+    console.log("warehouseData:", warehouseData);
+    const totalProducts = warehouseData?.totalProducts;
 
-  return (
-    <TableContainer component={Paper} style={{ width: "47%" }}>
-      <Table sx={{ maxWidth: "100%" }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Product</StyledTableCell>
-            <StyledTableCell align="right">Current Stock</StyledTableCell>
-            <StyledTableCell align="right">Reorder Point</StyledTableCell>
-            <StyledTableCell align="right">Retailer Request</StyledTableCell>
-            <StyledTableCell align="right">Maximum Capacity</StyledTableCell>
-          </TableRow>
-        </TableHead>
+    return (
+        <TableContainer component={Paper} style={{ width: "47%" }}>
+            <Table sx={{ maxWidth: "100%" }} aria-label="customized table">
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell>Product</StyledTableCell>
+                        <StyledTableCell align="right">
+                            Current Stock
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                            Reorder Point
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                            Retailer Request
+                        </StyledTableCell>
+                        <StyledTableCell align="right">
+                            Maximum Capacity
+                        </StyledTableCell>
+                    </TableRow>
+                </TableHead>
 
-        <TableBody>
-          {totalProducts?.map((e, i) => (
-            <>
-              <StyledTableRow key={i}>
-                <StyledTableCell component="th" scope="row">
-                  {prodName[i]}
-                </StyledTableCell>
-                {console.log(
-                  "totalCount:",
-                  e.fTotalCount,
-                  prodName[1],
-                  e.requestCount
-                )}
-                <StyledTableCell align="right">{e.wTotalCount}</StyledTableCell>
-                <StyledTableCell align="right">10</StyledTableCell>
-                <StyledTableCell align="right">
-                  {e.requestCount}
-                </StyledTableCell>
-                <StyledTableCell align="right">
-                  {e.wMaxCount}
-                </StyledTableCell>
-              </StyledTableRow>
-            </>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+                <TableBody>
+                    {totalProducts?.map((e, i) => (
+                        <>
+                            <StyledTableRow key={i}>
+                                <StyledTableCell component="th" scope="row">
+                                    {prodName[i]}
+                                </StyledTableCell>
+                                {console.log(
+                                    "totalCount:",
+                                    e.fTotalCount,
+                                    prodName[1],
+                                    e.requestCount
+                                )}
+                                <StyledTableCell align="right">
+                                    {e.wTotalCount}
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                    10
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                    {prodReqCountAtWH[i]}
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                    {e.wMaxCount}
+                                </StyledTableCell>
+                            </StyledTableRow>
+                        </>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+    );
 }
