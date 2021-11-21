@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { logout, selectUser } from "../features/userSlice";
+import WareHouse from "./wareHouse";
+import Manufacturer from "./table";
 
 export default function Dashboard() {
     const [showRetailer, setShowRetailer] = useState(true);
@@ -107,8 +109,8 @@ export default function Dashboard() {
             </div>
 
             <div className="main">
-                <CustomizedTables />
-                <CustomizedTables />
+              <Manufacturer manufacturerData={ manufacturerData}/>
+              <WareHouse warehouseData={warehouseData}/>
             </div>
 
             <div className="retName">Retailer Name</div>
