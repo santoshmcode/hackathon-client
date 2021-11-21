@@ -66,56 +66,94 @@ export default function CustomizedTables({ retailerData }) {
   // let retailer1 = [...arr1];
   // let retailer2 = [...arr2];
 
-  const handleSell = async (productId, productCount) => {
-    console.log("productId:", productId, productCount, retailerId);
-    try {
-        let retailerCountUpdate = await axios.patch(
-          `${process.env.REACT_APP_BASE_URL}/retailer/api/productCount`,
-            {retId: retailerId , prodId: productId, count: productCount-1},
-            {
-                headers: {
-                    authorization: `Bearer ${token}`,
+  const handleSell = async (productId, productCount, reorderPoint) => {
+
+      console.log("productId:", productId, productCount, retailerId);
+      try {
+          let retailerCountUpdate = await axios.patch(
+              `${process.env.REACT_APP_BASE_URL}/retailer/api/productCount`,
+              { retId: retailerId, proId: productId, count: productCount - 1 },
+              {
+                  headers: {
+                      authorization: `Bearer ${token}`,
+                  },
+              }
+          );
+        console.log("retailerCountUpdate:", retailerCountUpdate);
+        
+        if (productCount === reorderPoint + 1) {
+            alert(
+                `reorderPoint: ${reorderPoint} >= productCount: ${productCount} so, product request sent successfully to warehouse`
+            );
+            let warehouseReqCount = await axios.patch(
+                `${process.env.REACT_APP_BASE_URL}/warehouse/api/requestCount`,
+                {
+                    retId: retailerId,
+                    proId: productId,
+                    count: reorderPoint - productCount,
                 },
-            }
-      );
-      console.log("retailerCountUpdate:", retailerCountUpdate);
-        // setManufacturerData(resManufacturer.data[0]);
-    } catch (err) {
-        console.log(err);
-    }
-  }
+                {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            console.log("warehouseReqCount", warehouseReqCount);
+        }
+          // setManufacturerData(resManufacturer.data[0]);
+      } catch (err) {
+          console.log(err);
+      }
+  };
   
   return (
-    <TableContainer
-      component={Paper}
-      style={{ width: "50%", margin: "1rem 1rem" }}
-    >
-      <Table sx={{ maxWidth: "100%" }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Product</StyledTableCell>
-            <StyledTableCell align="center">Current Stock</StyledTableCell>
-            <StyledTableCell align="center">Reorder Point</StyledTableCell>
-            <StyledTableCell align="center">Sold Product</StyledTableCell>
-            {/* <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell> */}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {products?.map((row, i) => (
-            <StyledTableRow key={row.name}>
-              <StyledTableCell component="th" scope="row">
-                {name === "Pradeep Electronics" ? arr1[i] : arr2[i]}
-              </StyledTableCell>
-              <StyledTableCell align="center">{row.productCount}</StyledTableCell>
-              <StyledTableCell align="center">{row.reorderPoint}</StyledTableCell>
-              <StyledTableCell align="center">
-                <Button handleSell={handleSell} productId={row.productId} productCount={row.productCount}/>
-              </StyledTableCell>
-              {/* <StyledTableCell align="center">{row.protein}</StyledTableCell> */}
-            </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+      <TableContainer
+          component={Paper}
+          style={{ width: "50%", margin: "1rem 1rem" }}
+      >
+          <Table sx={{ maxWidth: "100%" }} aria-label="customized table">
+              <TableHead>
+                  <TableRow>
+                      <StyledTableCell>Product</StyledTableCell>
+                      <StyledTableCell align="center">
+                          Current Stock
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                          Reorder Point
+                      </StyledTableCell>
+                      <StyledTableCell align="center">
+                          Sold Product
+                      </StyledTableCell>
+                      {/* <StyledTableCell align="center">Protein&nbsp;(g)</StyledTableCell> */}
+                  </TableRow>
+              </TableHead>
+              <TableBody>
+                  {products?.map((row, i) => (
+                      <StyledTableRow key={row.name}>
+                          <StyledTableCell component="th" scope="row">
+                              {name === "Pradeep Electronics"
+                                  ? arr1[i]
+                                  : arr2[i]}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                              {row.productCount}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                              {row.reorderPoint}
+                          </StyledTableCell>
+                          <StyledTableCell align="center">
+                              <Button
+                                  handleSell={handleSell}
+                                  reorderPoint={row.reorderPoint}
+                                  productId={row.productId}
+                                  productCount={row.productCount}
+                              />
+                          </StyledTableCell>
+                          {/* <StyledTableCell align="center">{row.protein}</StyledTableCell> */}
+                      </StyledTableRow>
+                  ))}
+              </TableBody>
+          </Table>
+      </TableContainer>
   );
 }

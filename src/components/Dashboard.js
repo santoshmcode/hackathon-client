@@ -154,7 +154,7 @@ export default function Dashboard() {
                 />
             </div>
 
-            <div className="retName">Retailer Name</div>
+            <div className="retName">Retailer</div>
 
             <div className="retailerContainer">
                 <ArrowBackIosIcon
