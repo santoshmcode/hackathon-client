@@ -9,52 +9,123 @@ import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import { logout, selectUser } from "../features/userSlice";
 
 export default function Dashboard() {
-  const [showRetailer, setShowRetailer] = useState(true);
-  const [data, setData] = useState("");
-  const user = useSelector(selectUser);
+    const [showRetailer, setShowRetailer] = useState(true);
+    const [data, setData] = useState("");
+    const user = useSelector(selectUser);
+    const [manufacturerData, setManufacturerData] = useState({});
+    const [warehouseData, setWarehouseData] = useState({});
+    const [retailerData, setRetailerData] = useState([]);
+    const token = user.token;
 
-  console.log(user.token);
-  const token = user.token;
+    console.log("retailerData:", retailerData);
+    console.log("warehouseData:", warehouseData);
+    console.log("manufacturerData:", manufacturerData);
 
-  const getData = async () => {
-    try {
-      let resManufacturer = await axios.get(`${process.env.REACT_APP_BASE_URL}/factory/api/factories`);
-      // let resWarehouse = await axios.get(`${process.env.REACT_APP_BASE_URL}/factory/api/factories`);
-      // let resRetailer = await axios.get(`${process.env.REACT_APP_BASE_URL}/factory/api/factories`);
-      // let 
-      console.log(resManufacturer);
-      // setData(res.data);
-    }
-    catch (err) {
-      console.log(err);
-    }
-  }
+    // For get Manufacturer Data
+    const getManufacturerData = async () => {
+        try {
+            let resManufacturer = await axios.get(
+                `${process.env.REACT_APP_BASE_URL}/factory/api/factories`,
+                {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setManufacturerData(resManufacturer.data[0]);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-  useEffect(() => {
-    getData();
-  }, [])
+    // useEffect(() => {
+    //     let intervalId = setInterval(() => {
+    //         getManufacturerData();
+    //     }, 5000);
+    //     return () => clearInterval(intervalId);
+    // }, []);
 
-  return (
-    <div className="container">
-      <div className="heading">
-        <span>Manufacturer</span>
-        <span>Warehouse</span>
-      </div>
+    //  For get Warehouse Data
+    const getWarehouseData = async () => {
+        try {
+            let resWarehouse = await axios.get(
+                `${process.env.REACT_APP_BASE_URL}/warehouse/api/warehouses`,
+                {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setWarehouseData(resWarehouse.data[0]);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-      <div className="main">
-        <CustomizedTables />
-        <CustomizedTables />
-      </div>
+    // useEffect(() => {
+    //     let intervalId = setInterval(() => {
+    //         getWarehouseData();
+    //     }, 5000);
+    //     return () => clearInterval(intervalId);
+    // }, []);
 
-      <div className="retName">Retailer Name</div>
+    //  For get Retailer Data
+    const getRetailerData = async () => {
+        try {
+            let resRetailer = await axios.get(
+                `${process.env.REACT_APP_BASE_URL}/retailer/api/retailers`,
+                {
+                    headers: {
+                        authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+            setRetailerData(resRetailer.data);
+        } catch (err) {
+            console.log(err);
+        }
+    };
 
-      <div className="retailerContainer">
-        <ArrowBackIosIcon onClick={() => setShowRetailer(false)} className="arrow"/>
+    // useEffect(() => {
+    //     let intervalId = setInterval(() => {
+    //         getRetailerData();
+    //     }, 5000);
+    //     return () => clearInterval(intervalId);
+    // }, []);
 
-        {showRetailer ? <Retailer /> : <Retailer />}
+    useEffect(() => {
+        getRetailerData();
+        getWarehouseData();
+        getManufacturerData();
+    }, []);
 
-        <ArrowForwardIosIcon onClick={() => setShowRetailer(true)} className="arrow" />
-      </div>
-    </div>
-  );
+    return (
+        <div className="container">
+            <div className="heading">
+                <span>Manufacturer</span>
+                <span>Warehouse</span>
+            </div>
+
+            <div className="main">
+                <CustomizedTables />
+                <CustomizedTables />
+            </div>
+
+            <div className="retName">Retailer Name</div>
+
+            <div className="retailerContainer">
+                <ArrowBackIosIcon
+                    onClick={() => setShowRetailer(false)}
+                    className="arrow"
+                />
+
+                {showRetailer ? <Retailer /> : <Retailer />}
+
+                <ArrowForwardIosIcon
+                    onClick={() => setShowRetailer(true)}
+                    className="arrow"
+                />
+            </div>
+        </div>
+    );
 }
